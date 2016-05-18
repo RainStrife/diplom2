@@ -5,4 +5,3 @@ project/settings.py
 virt_env
 virtualenv
 static
-ansible/prod
