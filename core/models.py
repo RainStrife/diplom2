@@ -19,7 +19,7 @@ class Note(models.Model):
     short_text = models.CharField(max_length=300, blank=True, verbose_name='Краткое описание')
     text = models.TextField(blank=True, verbose_name='Полное описание')
     published_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
-    photos = models.ManyToManyField("Photo", related_name='notes')
+    photos = models.ManyToManyField("Photo", blank=True, related_name='notes')
     tags = models.ManyToManyField("Tag", blank=True, related_name='notes')  # Все теги прикреплённые к новости
 
     def __str__(self):
@@ -34,7 +34,7 @@ class Tag(models.Model):
 
 
 class PhotoAlbum(models.Model):
-    title = models.CharField(max_length=50, verbose_name='Название Альбома')
+    title = models.CharField(max_length=100, verbose_name='Название Альбома')
     img = models.ImageField(upload_to='albums/', verbose_name='Превью Альбома')
 
     def __str__(self):
@@ -50,7 +50,7 @@ class VideoAlbum(models.Model):
 
 
 class Photo(models.Model):
-    title = models.CharField(max_length=50, blank=True, verbose_name='Название фотографии')
+    title = models.CharField(max_length=100, blank=True, verbose_name='Название фотографии')
     img = models.ImageField(verbose_name='Изображение',  upload_to='photo/')
     album = models.ForeignKey(PhotoAlbum, blank=True, related_name='photos')
     tags = models.ManyToManyField(Tag, blank=True, related_name='photos')
@@ -73,7 +73,8 @@ class Formation(models.Model):
     title = models.CharField(max_length=200, blank=True, verbose_name='Название клубного формирования')
     short_text = models.CharField(max_length=300, blank=True, verbose_name='Краткое описание')
     text = models.TextField(blank=True, verbose_name='Полное описание')
-    photos = models.ManyToManyField(Photo, related_name='formations')
+    photos = models.ManyToManyField(Photo, blank=True, related_name='formations')
+    leader = models.CharField(max_length=300, verbose_name='Руководитель')
 
     def __str__(self):
         return self.title
@@ -91,7 +92,7 @@ class FormationTime(models.Model):
     )
     day = models.CharField(max_length=3, choices=day_of_the_week)
     time = models.TimeField()
-    formation = models.ForeignKey(Formation, related_name='formation_times')
+    formation = models.ForeignKey(Formation)
 
     def __str__(self):
         title = self.formation.title + " " + self.day + " " + str(self.time)
