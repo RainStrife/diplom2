@@ -2,7 +2,20 @@
 
 {% block content %}
     {% for formation in object_list %}
-        <a href="{% url 'formation_detail_view' formation.pk %}">{{ formation.title }}</a>
+          <h5>{{ formation.title }}</h5>
+
+            {% if formation.photos %}
+                <img width="60%" src="{{ formation.photos.url }}">
+            {% endif %}
+            <h5>
+                {% if formation.short_text %}
+                    {{ formation.short_text }}
+                {% else %}
+                    {{ formation.text|slice:":50" }}...
+                {% endif %}
+            </h5>
+            <div style="background-color: #eeeee2"><a href="{% url 'formation_detail_view' formation.pk %}">подробнее</a> </div>
+            <hr>
     {% endfor %}
 
 {% endblock content %}

@@ -73,7 +73,7 @@ class Formation(models.Model):
     title = models.CharField(max_length=200, blank=True, verbose_name='Название клубного формирования')
     short_text = models.CharField(max_length=300, blank=True, verbose_name='Краткое описание')
     text = models.TextField(blank=True, verbose_name='Полное описание')
-    photos = models.ManyToManyField(Photo, blank=True, related_name='formations')
+    photos = models.ManyToManyField(Photo, blank=True, null=True, related_name='formations')
     leader = models.CharField(max_length=300, verbose_name='Руководитель')
 
     def __str__(self):
@@ -92,8 +92,11 @@ class FormationTime(models.Model):
     )
     day = models.CharField(max_length=3, choices=day_of_the_week)
     time = models.TimeField()
-    formation = models.ForeignKey(Formation)
+    formation = models.ForeignKey(Formation, related_name='formation_times')
 
     def __str__(self):
         title = self.formation.title + " " + self.day + " " + str(self.time)
         return title
+
+    class Meta:
+        ordering = ['dc', 'day']
