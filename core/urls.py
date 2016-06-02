@@ -5,4 +5,6 @@ from core import views
 
 urlpatterns = [
     url(r'^$', views.index),
+    url(r'^notes/$', views.note_list, name='note_list_view'),
+    url(r'^notes/$', views.note_list, name='note_list_view'),
 ]

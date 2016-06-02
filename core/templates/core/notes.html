@@ -1,0 +1,8 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+    {% for note in object_list %}
+        <a>{{ note.title }}</a>
+    {% endfor %}
+
+{% endblock content %}
