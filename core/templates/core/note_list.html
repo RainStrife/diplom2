@@ -1,8 +1,30 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {% for note in object_list %}
-        <a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a>
-    {% endfor %}
+
+    <div class="row">
+
+        {% for note in object_list %}
+
+            <div class="col m4 offset-m1">
+                {% if note.photos.all %}
+                    <img src="{{ note.photos.all.0.img.src }}">
+                {% endif %}
+
+
+                <h4><a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a></h4>
+                <h5>
+                    {% if note.short_text %}
+                        {{ note.short_text }}
+                    {% else %}
+                        {{ note.text|slice:":50" }}...
+                    {% endif %}
+                </h5>
+                <div style="background-color: #eeeee2"><a href="{% url 'note_detail_view' note.pk %}">подробнее</a> </div>
+            <hr>
+            </div>
+        {% endfor %}
+    </div>
+
 
 {% endblock content %}
