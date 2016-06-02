@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from core.models import Note
+from core.models import Note, Formation
 
 
 def index(request):
@@ -18,3 +18,16 @@ class NoteDetail(DetailView):
     template_name = 'core/note_detail.html'
     slug_field = 'id'
 note_detail = NoteDetail.as_view()
+
+
+class FormationList(ListView):
+    model = Formation
+    template_name = 'core/note_list.html'
+formation_list = FormationList.as_view()
+
+
+class FormationDetail(DetailView):
+    model = Note
+    template_name = 'core/note_detail.html'
+    slug_field = 'id'
+formation_detail = FormationDetail.as_view()
