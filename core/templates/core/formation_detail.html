@@ -1,5 +1,33 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {{ object.title }}
+    <h4>{{ object.title }}</h4>
+    <p>Описание:</p>
+    {% if object.photos %}
+        <div class="row">
+            <div class="col m7 offset-m1">
+                <div>{{ object.text|safe }}</div>
+            </div>
+            <div class="col m4">
+                <img width="100%" src="{{ object.text }}">
+            </div>
+        </div>
+    {% else %}
+        <p>{{ object.text|safe }}</p>
+    {% endif %}
+    <h5>Руководитель: {{ object.leader }}</h5>
+
+    {% if object.formation_times.all %}
+        <div class="row">
+
+        </div>
+        <table>
+            {% for form_time in object.formation_times.all %}
+                <tr>
+                    <td>{{ form_time.day }}</td> <td>{{ form_time.time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
 {% endblock content %}

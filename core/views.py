@@ -32,6 +32,17 @@ formation_list = FormationList.as_view()
 class FormationDetail(DetailView):
     model = Formation
     template_name = 'core/formation_detail.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     list_formation_time = self.object.formation_times.all()
+    #     times_in_day = {}
+    #     for form_time in list_formation_time:
+    #         if times_in_day.get(form_time.day):
+    #             pass
+    #         else:
+    #             times_in_day[form_time.day] = [form_time.time]
+    #     context['times_in_day'] = times_in_day
 formation_detail = FormationDetail.as_view()
 
 
