@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from core.models import Note, Formation, VideoAlbum, PhotoAlbum
+from core.models import Note, Formation, PhotoAlbum, Video
 
 
 def index(request):
@@ -35,13 +35,25 @@ class FormationDetail(DetailView):
 formation_detail = FormationDetail.as_view()
 
 
-class VideoAlbumList(ListView):
-    model = VideoAlbum
-    template_name = 'core/video_album_list.html'
-video_album_list = VideoAlbumList.as_view()
+class VideoList(ListView):
+    model = Video
+    template_name = 'core/video_list.html'
+video_list = VideoList.as_view()
 
 
 class PhotoAlbumList(ListView):
     model = PhotoAlbum
     template_name = 'core/photo_album_list.html'
 photo_album_list = PhotoAlbumList.as_view()
+
+
+class PhotoAlbumDetail(DetailView):
+    model = PhotoAlbum
+    template_name = 'core/photo_album_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        photo_list = self.object.photos.all()
+        context['photo_list'] = photo_list
+        return context
+photo_album_detail = PhotoAlbumDetail.as_view()

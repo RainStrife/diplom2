@@ -1,7 +1,7 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {% for video_album in object_list %}
-        <a href="#">{{ video_album.title }}</a>
+    {% for video in object_list %}
+        <a href="#">{{ video.title }}</a>
     {% endfor %}
 {% endblock content %}

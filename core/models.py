@@ -41,14 +41,6 @@ class PhotoAlbum(models.Model):
         return self.title
 
 
-class VideoAlbum(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Название Альбома')
-    img = models.ImageField(upload_to='albums/', verbose_name='Превью Альбома')
-
-    def __str__(self):
-        return self.title
-
-
 class Photo(models.Model):
     title = models.CharField(max_length=100, blank=True, verbose_name='Название фотографии')
     img = models.ImageField(verbose_name='Изображение',  upload_to='photo/')
@@ -62,7 +54,6 @@ class Photo(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True, verbose_name='Название видео')
     url = models.URLField(verbose_name='Ссылка на видео')
-    album = models.ForeignKey(VideoAlbum, blank=True, null=True, related_name='videos')
     tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
 
     def __str__(self):
