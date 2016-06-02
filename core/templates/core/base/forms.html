@@ -1,0 +1,35 @@
+{% if form.non_field_errors %}
+<div align="center" class="red-text">
+    <strong>
+        {{ form.non_field_errors }}
+    </strong>
+</div>
+{% endif %}
+
+{% for field in form %}
+
+    <div class="row">
+        <div class="input-field col s12 {% if field.errors %} field_error {% endif %}">
+          <input id="{{ field.id_for_label }}" name="{{ field.name }}" type="{{ field.field.widget.input_type }}"
+                 class="validate {% if field.field.widget.input_type == 'date'%} datepicker {% endif %}"
+                {% if field.value %} value="{{ field.value }}" {% endif %}
+          >
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        </div>
+    </div>
+
+    {% if field.errors %}
+        <div class="row">
+            <div class="col s8 red-text text-center center">
+                {{ field.errors }}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+<script>
+    $('.datepicker').pickadate({ // FOR DATEPICKER
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+</script>
