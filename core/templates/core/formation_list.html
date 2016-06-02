@@ -1,8 +1,8 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {% for note in object_list %}
-        <a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a>
+    {% for formation in object_list %}
+        <a href="{% url 'formation_detail_view' formation.pk %}">{{ formation.title }}</a>
     {% endfor %}
 
 {% endblock content %}
