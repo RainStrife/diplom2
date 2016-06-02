@@ -42,13 +42,13 @@
 
             {% endblock %}
         </div>
+
+         <div class="post_content">
+            {% block post_content %}
+            {% endblock %}
+        </div>
     </div>
 
-    <div class="post_content">
-        {% block post_content %}
-
-        {% endblock %}
-    </div>
 </div>
 <script src="{{ STATIC_URL }}core/js/jquery-2.1.1.min.js"></script>
 <script src="{{ STATIC_URL }}core/materialize/js/materialize.min.js"></script>
