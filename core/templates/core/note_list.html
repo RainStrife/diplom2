@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for note in object_list %}
-        <a>{{ note.title }}</a>
+        <a href="{% url 'note_detail_view' note.id %}">{{ note.title }}</a>
     {% endfor %}
 
 {% endblock content %}
