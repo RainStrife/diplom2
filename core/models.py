@@ -90,4 +90,4 @@ class FormationTime(models.Model):
         return title
 
     class Meta:
-        ordering = ['dc', 'day']
+        ordering = ['time', 'day']
