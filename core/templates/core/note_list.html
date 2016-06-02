@@ -6,9 +6,9 @@
 
         {% for note in object_list %}
 
-            <div class="col m4 offset-m1">
+            <div class="col m4 offset-m1" style="padding-top: 2%">
 
-                <h4><a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a></h4>
+                <h5><a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a></h5>
 
                 {% if note.photos.all %}
                     <img width="60%" src="{{ note.photos.all.0.img.url }}">
