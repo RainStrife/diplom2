@@ -1,0 +1,8 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+    {% for photo_album in object_list %}
+        <a href="#">{{ photo_album.title }}</a>
+    {% endfor %}
+
+{% endblock content %}

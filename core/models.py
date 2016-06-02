@@ -52,7 +52,7 @@ class VideoAlbum(models.Model):
 class Photo(models.Model):
     title = models.CharField(max_length=100, blank=True, verbose_name='Название фотографии')
     img = models.ImageField(verbose_name='Изображение',  upload_to='photo/')
-    album = models.ForeignKey(PhotoAlbum, blank=True, related_name='photos')
+    album = models.ForeignKey(PhotoAlbum, blank=True, null=True, related_name='photos')
     tags = models.ManyToManyField(Tag, blank=True, related_name='photos')
 
     def __str__(self):
@@ -62,7 +62,7 @@ class Photo(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True, verbose_name='Название видео')
     url = models.URLField(verbose_name='Ссылка на видео')
-    album = models.ForeignKey(VideoAlbum, blank=True, related_name='videos')
+    album = models.ForeignKey(VideoAlbum, blank=True, null=True, related_name='videos')
     tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
 
     def __str__(self):
