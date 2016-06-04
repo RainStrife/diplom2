@@ -1,7 +1,7 @@
 import datetime
 import simplejson
 import pyowm
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from core.models import Note, Formation, PhotoAlbum, Video, Event
@@ -26,16 +26,16 @@ class CalendarEvents(TemplateView):
             print(request)
             for_day = request.GET.get('for_day')
             print(for_day)
-            return HttpResponse()
+            day = datetime.date.today()
+            week_events_for_day = self.get_week_events_for_day(day)
+            return JsonResponse(week_events_for_day, safe=False)
         else:
             return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_day = datetime.date.today()
-        context['for_day'] = current_day
-        # events_for_current_day = self.get_week_events_for_day(current_day)
-        # context['week_events'] = events_for_current_day
+        context['for_day'] = current_day.strftime('%m/%d/%Y') # for js DATE
         return context
 
     @staticmethod

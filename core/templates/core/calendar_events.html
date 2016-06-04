@@ -7,18 +7,28 @@
     {{ request.path }}
     <script>
 
-        var for_day = '{{ for_day }}';
-        var current_url = '{{ request.path }}';
+        var for_day = new Date('{{ for_day }}');
         console.log(for_day);
-        console.log(current_url);
+        console.log('{{ for_day }}');
+        var current_url = '{{ request.path }}';
 
         $.ajax({
             method: "GET",
             url: '{{ request.path }}',
-            data: {'for_day': for_day}
+            data: {'day': for_day.getDate(), 'month': for_day.getMonth()+1, 'year': for_day.getFullYear()}
         })
         .done(function (mesg) {
-            console.log(mesg);
+
+{#            var events_for_week = JSON.parse(mesg);#}
+            var events_for_week = mesg;
+            render_calendar_weeks(mesg)
         });
+
+        var render_calendar_weeks = function (events_for_week) {
+            console.log(typeof events_for_week);
+            events_for_week.forEach(function (day) {
+                console.log(day)
+            })
+        }
     </script>
 {% endblock content %}
