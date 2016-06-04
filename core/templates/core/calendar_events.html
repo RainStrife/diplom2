@@ -1,34 +1,127 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {{ request.url }}
-    {{ request.path }}
-    <br>
-    {{ request.path }}
+
     <script>
+        function CalendarEventDOM(for_day, current_url) {
+            this.for_day = for_day;
+            this.current_url = current_url;
+            this.getDataAndRenderInDOM();
+        }
+
+        CalendarEventDOM.prototype.getDataAndRenderInDOM = function () {
+            var that = this;
+            var for_day = that.for_day;
+            $.ajax({
+                method: "GET",
+                url: that.current_url,
+                data: {'day': for_day.getDate(), 'month': for_day.getMonth()+1, 'year': for_day.getFullYear()}
+            })
+            .done(function (response) {
+                var week_in_str = response['week_in_str'];
+                $('.week_in_str')[0].innerText = week_in_str;
+
+                var events_for_week = response['week_events'];
+                that.renderDivEventsForWeeks(events_for_week)
+            });
+        };
+
+        CalendarEventDOM.prototype.renderDivEventsForWeeks = function (events_for_week) {
+         /*  events_for_week = [  [1=day, 2=[event1, event2] ], [...] ]
+        event1 = [ 'time', 'title', 'text', 'id']
+        */
+            this.clearWeekDivs();
+            events_for_week.forEach(function (events_in_day_and_number_day, day_index) {
+                var div_for_this_week_day = document.getElementsByClassName('eventCalendar')[day_index];
+                console.log(div_for_this_week_day);
+                var number_day = events_in_day_and_number_day[0];
+                console.log(div_for_this_week_day.getElementsByClassName('weekDay'));
+                div_for_this_week_day.getElementsByClassName('weekDay')[0].innerText = number_day;
+                var events_in_day = events_in_day_and_number_day[1];
+                events_in_day.forEach(function (event) {
+                    var span_title = document.createElement('span');
+                    span_title.innerText = event[1];
+                    var div_time = document.createElement('div');
+                    div_time.innerText = event[0];
+
+                    var event_div = document.createElement('div');
+                    event_div.appendChild(span_title);
+                    event_div.appendChild(div_time);
+                    event_div.appendChild(document.createElement('hr'));
+
+                    div_for_this_week_day.appendChild(event_div)
+                })
+            });
+        };
+        CalendarEventDOM.prototype.clearWeekDivs = function () {
+            var week_divs = document.getElementsByClassName('eventCalendar');
+            for (var day=0; day<7; day++){
+                var week_div = week_divs[day];
+                var events_divs = week_div.getElementsByClassName('events')[0];
+                while (events_divs.hasChildNodes()) {
+                    events_divs.removeChild(week_div.lastChild);
+                }
+            }
+        };
+
+        CalendarEventDOM.prototype.nextWeek = function () {
+            this.for_day.setDate(this.for_day.getDate() + 7);
+            this.getDataAndRenderInDOM();
+        };
+        CalendarEventDOM.prototype.previousWeek = function () {
+            this.for_day.setDate(this.for_day.getDate() - 7);
+            this.getDataAndRenderInDOM();
+        };
 
         var for_day = new Date('{{ for_day }}');
-        console.log(for_day);
-        console.log('{{ for_day }}');
         var current_url = '{{ request.path }}';
+        var calendarEvent = new CalendarEventDOM(for_day, current_url);
 
-        $.ajax({
-            method: "GET",
-            url: '{{ request.path }}',
-            data: {'day': for_day.getDate(), 'month': for_day.getMonth()+1, 'year': for_day.getFullYear()}
-        })
-        .done(function (mesg) {
-
-{#            var events_for_week = JSON.parse(mesg);#}
-            var events_for_week = mesg;
-            render_calendar_weeks(mesg)
-        });
-
-        var render_calendar_weeks = function (events_for_week) {
-            console.log(typeof events_for_week);
-            events_for_week.forEach(function (day) {
-                console.log(day)
-            })
-        }
     </script>
-{% endblock content %}
+
+    <div class="card-panel blue-grey darken-2 row">
+
+        <div class="col m2" onclick="calendarEvent.previousWeek()"> <a href="#">
+            <i class="material-icons left orange-text text-darken-2">skip_previous</i>
+        </a></div>
+        <div class="week_in_str center col m8 orange-text text-lighten-2"></div>
+        <div class="col m2" onclick="calendarEvent.nextWeek()"><a href="#">
+            <i class="material-icons right orange-text text-darken-2">skip_next</i>
+        </a></div>
+
+    </div>
+    {% endblock %}
+{% block contet_without_padding %}
+    <div class="row">
+        <div class="col m2 eventCalendar blue-grey lighten-2" id="0" style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+        <div class="col m2 eventCalendar" id="1" style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+        <div class="col m2 eventCalendar" id="2" style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+        <div class="col m2 eventCalendar" id="3" style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+        <div class="col m2 eventCalendar" id="4" style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+        <div class="col m1 eventCalendar blue-grey lighten-2 center" id="5" style="border: solid 2px black">
+            <div class="weekDay center orange-text text-lighten-2"></div>
+            <div class="events center orange-text text-lighten-2"></div>
+        </div>
+        <div class="col m1 eventCalendar" id="6 blue-grey lighten-2 " style="border: solid 2px black">
+            <div class="weekDay"></div>
+            <div class="events"></div>
+        </div>
+
+    </div>
+
+{% endblock %}
