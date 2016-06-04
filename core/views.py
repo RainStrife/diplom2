@@ -24,6 +24,7 @@ def calendar_events(request):
     }
     return render(request, '', {})
 
+
 class NoteList(ListView):
     model = Note
     template_name = 'core/note_list.html'
