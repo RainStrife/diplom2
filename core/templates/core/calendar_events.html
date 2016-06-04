@@ -33,33 +33,52 @@
             this.clearWeekDivs();
             events_for_week.forEach(function (events_in_day_and_number_day, day_index) {
                 var div_for_this_week_day = document.getElementsByClassName('eventCalendar')[day_index];
-                console.log(div_for_this_week_day);
+
+                // append number_day_div
                 var number_day = events_in_day_and_number_day[0];
-                console.log(div_for_this_week_day.getElementsByClassName('weekDay'));
-                div_for_this_week_day.getElementsByClassName('weekDay')[0].innerText = number_day;
+                var number_day_div = document.createElement('div');
+                number_day_div.innerText = number_day;
+                number_day_div.className = 'center orange-text text-lighten-2 card-panel blue-grey';
+                number_day_div.style = 'padding-bottom: 10px; padding-top: 10px;';
+                div_for_this_week_day.getElementsByClassName('weekDay')[0].appendChild(number_day_div);
+
+                //append events divs
                 var events_in_day = events_in_day_and_number_day[1];
                 events_in_day.forEach(function (event) {
                     var span_title = document.createElement('span');
                     span_title.innerText = event[1];
+                    span_title.className = 'center grey-text text-darken-2';
+
                     var div_time = document.createElement('div');
                     div_time.innerText = event[0];
-
+                    div_time.className = 'center blue-grey-text text-lighten-2';
+                    div_time.style = 'font-family:courier; font-size:80%;';
                     var event_div = document.createElement('div');
                     event_div.appendChild(span_title);
                     event_div.appendChild(div_time);
                     event_div.appendChild(document.createElement('hr'));
 
-                    div_for_this_week_day.appendChild(event_div)
+                    div_for_this_week_day.getElementsByClassName('events')[0].appendChild(event_div)
                 })
             });
         };
         CalendarEventDOM.prototype.clearWeekDivs = function () {
+            // clear events
             var week_divs = document.getElementsByClassName('eventCalendar');
             for (var day=0; day<7; day++){
                 var week_div = week_divs[day];
                 var events_divs = week_div.getElementsByClassName('events')[0];
                 while (events_divs.hasChildNodes()) {
-                    events_divs.removeChild(week_div.lastChild);
+                    events_divs.removeChild(events_divs.lastChild);
+                }
+            }
+
+            var number_divs = document.getElementsByClassName('eventCalendar');
+            for (day=0; day<7; day++){
+                var day_div = week_divs[day];
+                day_div = day_div.getElementsByClassName('weekDay')[0];
+                if (day_div.hasChildNodes()) {
+                    day_div.removeChild(day_div.lastChild);
                 }
             }
         };
@@ -93,31 +112,31 @@
     {% endblock %}
 {% block contet_without_padding %}
     <div class="row">
-        <div class="col m2 eventCalendar blue-grey lighten-2" id="0" style="border: solid 2px black">
+        <div class="col m2 eventCalendar" style="width: 14%" id="0">
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
-        <div class="col m2 eventCalendar" id="1" style="border: solid 2px black">
+        <div class="col m2 eventCalendar" style="width: 14%" id="1" >
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
-        <div class="col m2 eventCalendar" id="2" style="border: solid 2px black">
+        <div class="col m2 eventCalendar" style="width: 14%" id="2">
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
-        <div class="col m2 eventCalendar" id="3" style="border: solid 2px black">
+        <div class="col m2 eventCalendar" style="width: 14%" id="3">
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
-        <div class="col m2 eventCalendar" id="4" style="border: solid 2px black">
+        <div class="col m2 eventCalendar" style="width: 14%" id="4">
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
-        <div class="col m1 eventCalendar blue-grey lighten-2 center" id="5" style="border: solid 2px black">
-            <div class="weekDay center orange-text text-lighten-2"></div>
-            <div class="events center orange-text text-lighten-2"></div>
+        <div class="col m1 eventCalendar" style="width: 14%" id="5">
+            <div class="weekDay"></div>
+            <div class="events"></div>
         </div>
-        <div class="col m1 eventCalendar" id="6 blue-grey lighten-2 " style="border: solid 2px black">
+        <div class="col m1 eventCalendar" style="width: 14%" id="6">
             <div class="weekDay"></div>
             <div class="events"></div>
         </div>
