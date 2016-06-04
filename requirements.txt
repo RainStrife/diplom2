@@ -1,3 +1,4 @@
 Django==1.9.6
 Pillow==3.2.0
 python-social-auth==0.2.19
+simplejson
