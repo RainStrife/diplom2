@@ -1,0 +1,24 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+    {{ request.url }}
+    {{ request.path }}
+    <br>
+    {{ request.path }}
+    <script>
+
+        var for_day = '{{ for_day }}';
+        var current_url = '{{ request.path }}';
+        console.log(for_day);
+        console.log(current_url);
+
+        $.ajax({
+            method: "GET",
+            url: '{{ request.path }}',
+            data: {'for_day': for_day}
+        })
+        .done(function (mesg) {
+            console.log(mesg);
+        });
+    </script>
+{% endblock content %}
