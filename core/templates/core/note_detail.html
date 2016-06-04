@@ -10,7 +10,7 @@
 
         {% if note.photos.all %}
             {% for image in  note.photos.all %}
-                <img width="45%" src="{{ image.img.url }}">
+                <img style="padding-left: 2%" width="48%" src="{{ image.img.url }}">
             {% endfor %}
         {% endif %}
 
