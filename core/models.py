@@ -64,7 +64,7 @@ class Formation(models.Model):
     title = models.CharField(max_length=200, blank=True, verbose_name='Название клубного формирования')
     short_text = models.CharField(max_length=300, blank=True, verbose_name='Краткое описание')
     text = models.TextField(blank=True, verbose_name='Полное описание')
-    photos = models.ManyToManyField(Photo, blank=True, null=True, related_name='formations')
+    photos = models.ManyToManyField(Photo, blank=True, related_name='formations')
     leader = models.CharField(max_length=300, verbose_name='Руководитель')
 
     def __str__(self):

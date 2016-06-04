@@ -1,6 +1,9 @@
+import datetime
+
+import pyowm
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from core.models import Note, Formation, PhotoAlbum, Video
+from core.models import Note, Formation, PhotoAlbum, Video, Event
 
 
 def index(request):
@@ -8,8 +11,18 @@ def index(request):
 
 
 def contact_information(request):
+    owm = pyowm.OWM('5d436488dae946c7fa423d96b8bcd413')
+    observation = owm.weather_at_place('Arneyevo, RU')
+    observation = observation.get_weather()
     return render(request, 'core/contact_information.html', {})
 
+
+def calendar_events(request):
+    qs = Event.objects.all()
+    curent_weekday = datetime.date.weekday(datetime.date.today())
+    events = {
+    }
+    return render(request, '', {})
 
 class NoteList(ListView):
     model = Note

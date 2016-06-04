@@ -24,7 +24,7 @@
         <table>
             {% for form_time in object.formation_times.all %}
                 <tr>
-                    <td>{{ form_time.day }}</td> <td>{{ form_time.time }}</td>
+                    <td>{{ form_time.get_day_display }}</td> <td>{{ form_time.time }}</td>
                 </tr>
             {% endfor %}
         </table>
