@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from core.models import Note, Formation, PhotoAlbum, Video, Event
+from project.settings import STATIC_URL
 
 
 def index(request):
@@ -14,16 +15,17 @@ def index(request):
 class ContactInformation(TemplateView):
     template_name = 'core/contact_information.html'
     background = {
-        'Thunderstorm': '',
-        'Drizzle': '',
-        'Rain': '',
-        'Snow': '',
-        'Atmosphere': '',
-        'Clear': '',
-        'Clouds': '',
-        'Extreme': '',
-        'Additional': '',
-    } #TODO сделать для всех вариантов картинки
+        'Thunderstorm': 'core/img_for_weather/1.jpg',
+        'Drizzle': 'core/img_for_weather/2.jpg',
+        'Rain': 'core/img_for_weather/3.jpg',
+        'Snow': 'core/img_for_weather/4.jpg',
+        'Atmosphere': 'core/img_for_weather/5.jpg',
+        'Clear': 'core/img_for_weather/6.jpg',
+        'Clouds': 'core/img_for_weather/7.jpg',
+        'Extreme': 'core/img_for_weather/8.jpg',
+        'Additional': 'core/img_for_weather/9.jpg',
+    }
+    #TODO сделать для всех вариантов картинки
 
     icon_url = 'http://openweathermap.org/img/w/'
 
