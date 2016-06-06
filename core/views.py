@@ -15,6 +15,9 @@ def contact_information(request):
     owm = pyowm.OWM('5d436488dae946c7fa423d96b8bcd413')
     observation = owm.weather_at_place('Arneyevo, RU')
     observation = observation.get_weather()
+    context = {
+        
+    }
     return render(request, 'core/contact_information.html', {})
 
 
@@ -60,7 +63,7 @@ class CalendarEvents(TemplateView):
                 event_text = ''
                 if hasattr(event, 'short_text'):
                     event_text = event.short_text
-                if hasattr(event, 'text'):
+                elif hasattr(event, 'text'):
                     event_text = event.text[0:45]
                 event_data = [event_time, event.title, event_text]
                 list_events.append(event_data)
