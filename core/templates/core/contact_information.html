@@ -1,10 +1,21 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    Контактная информация (адрес: 142200, Московская область, Серпуховский район, деревня Арнеево, дом 35; телефон +7 496 775 96 07, как добраться (с интерактивным маршрутом))
-    Погода в Аренево
-    {{ temperature }}
-    {{ icon }}
-    <img src="{{ STATIC_URL }}{{ background }}">
-    <img src="{{ icon }}">
+    <div class="row">
+        <div class="col m8">
+            <h4>Контактная информация:</h4>
+            <h5>Адрес :</h5> 142200, Московская область, Серпуховский район, деревня Арнеево, дом 35;
+            <h5>телефон: </h5> +7 496 775 96 07,
+            <h5>Мы находимся</h5>(с интерактивным маршрутом))
+        </div>
+        <div class="col m4">
+            <h4>Погода в Аренево:</h4>
+            <p>{{ temperature }}</p>
+            <div class="center">
+                <img width="70%" src="{{ STATIC_URL }}{{ background }}">
+                <img width="20%" src="{{ icon }}">
+            </div>
+        </div>
+    </div>
+
 {% endblock content %}

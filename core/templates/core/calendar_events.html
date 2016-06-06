@@ -45,19 +45,24 @@
                 //append events divs
                 var events_in_day = events_in_day_and_number_day[1];
                 events_in_day.forEach(function (event) {
-                    var span_title = document.createElement('span');
-                    span_title.innerText = event[1];
-                    span_title.className = 'center grey-text text-darken-2';
+                    var tooltip_title = document.createElement('a');
+                    tooltip_title.innerText = event[1];
+                    tooltip_title.className = 'center grey-text text-darken-2 tooltipped';
+                    tooltip_title.setAttribute('data-position', "bottom");
+                    tooltip_title.setAttribute('data-tooltip', event[2]);
+                    tooltip_title.setAttribute('data-delay', "50");
 
                     var div_time = document.createElement('div');
                     div_time.innerText = event[0];
                     div_time.className = 'center blue-grey-text text-lighten-2';
                     div_time.style = 'font-family:courier; font-size:80%;';
                     var event_div = document.createElement('div');
-                    event_div.appendChild(span_title);
+                    event_div.appendChild(tooltip_title);
                     event_div.appendChild(div_time);
                     event_div.appendChild(document.createElement('hr'));
-
+                    $(document).ready(function(){
+                        $('.tooltipped').tooltip({delay: 50});
+                    });
                     div_for_this_week_day.getElementsByClassName('events')[0].appendChild(event_div)
                 })
             });
@@ -96,8 +101,10 @@
         var current_url = '{{ request.path }}';
         var calendarEvent = new CalendarEventDOM(for_day, current_url);
 
-    </script>
 
+
+    </script>
+<a class="center grey-text text-darken-2 tooltipped" data-position="bottom" data-tooltip="краткое описание" data-delay="50">Первое событие</a>
     <div class="card-panel blue-grey darken-2 row">
 
         <div class="col m2" onclick="calendarEvent.previousWeek()"> <a href="#">
