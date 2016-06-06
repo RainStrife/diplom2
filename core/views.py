@@ -1,7 +1,7 @@
 import datetime
 import simplejson
 import pyowm
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from core.models import Note, Formation, PhotoAlbum, Video, Event
@@ -27,31 +27,33 @@ class CalendarEvents(TemplateView):
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             print(request)
-            for_day = request.GET.get('for_day')
-            print(for_day)
-            return HttpResponse()
+            day = int(request.GET.get('day'))
+            month = int(request.GET.get('month'))
+            year = int(request.GET.get('year'))
+
+            day = datetime.date(day=day, month=month, year=year)
+            week_events_for_day = self.get_week_events_for_day(day)
+            week_in_str = self.get_week_days_for_day(day)
+            week_events = {'week_in_str': week_in_str, 'week_events': week_events_for_day}
+            return JsonResponse(week_events, safe=False)
         else:
             return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         current_day = datetime.date.today()
-        context['for_day'] = current_day
-        # events_for_current_day = self.get_week_events_for_day(current_day)
-        # context['week_events'] = events_for_current_day
+        context['for_day'] = current_day.strftime('%m/%d/%Y') # for js DATE
         return context
 
-    @staticmethod
-    def get_week_events_for_day(day: datetime.date):
+    @classmethod
+    def get_week_events_for_day(cls, day: datetime.date):
         """ [  [1=day, 2=[event1, event2] ], [...] ]
         # event1 = [ 'time', 'title', 'text', 'id']
         return: data for js
         """
         week_events = []
         qs = Event.objects.all()
-        current_day = day
-        current_weekday = current_day.weekday()
-        week_monday = current_day - datetime.timedelta(days=current_weekday)
+        week_monday = cls.get_monday_for_week_included_day(day)
         for week_index_day in range(0, 7):
             week_day = week_monday + datetime.timedelta(days=week_index_day)
             day_events = qs.filter(event_date__year=week_day.year,
@@ -71,6 +73,19 @@ class CalendarEvents(TemplateView):
             day_list = [week_day.strftime('%d'), list_events]  # %d.%m.%y
             week_events.append(day_list)
         return week_events
+
+    @classmethod
+    def get_week_days_for_day(cls, day):
+        ''' 21 06 2016 — 28 06 2016'''
+        week_monday = cls.get_monday_for_week_included_day(day)
+        week_data = (week_monday.strftime('%d %m %y')) + ' - ' + (week_monday + datetime.timedelta(days=6)).strftime('%d %m %y')
+        return week_data
+
+    @staticmethod
+    def get_monday_for_week_included_day(day):
+        current_weekday = day.weekday()
+        monday = day - datetime.timedelta(days=current_weekday)
+        return monday
 calendar_events = CalendarEvents.as_view()
 
 

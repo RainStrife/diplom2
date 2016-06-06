@@ -1,8 +1,6 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    <div class="row">
-        <div class="col m10 offset-m1">
 
         <h3 class="card-panel orange lighten-4">{{ object.title }}</h3>
 
@@ -13,8 +11,5 @@
                 <img style="padding-left: 2%" width="48%" src="{{ image.img.url }}">
             {% endfor %}
         {% endif %}
-
-        </div>
-    </div>
 
 {% endblock content %}
