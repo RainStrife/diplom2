@@ -11,14 +11,35 @@ def index(request):
     return render(request, 'core/index.html', {})
 
 
-def contact_information(request):
-    owm = pyowm.OWM('5d436488dae946c7fa423d96b8bcd413')
-    observation = owm.weather_at_place('Arneyevo, RU')
-    observation = observation.get_weather()
-    context = {
-        
-    }
-    return render(request, 'core/contact_information.html', {})
+class ContactInformation(TemplateView):
+    template_name = 'core/contact_information.html'
+    background = {
+        'Thunderstorm': '',
+        'Drizzle': '',
+        'Rain': '',
+        'Snow': '',
+        'Atmosphere': '',
+        'Clear': '',
+        'Clouds': '',
+        'Extreme': '',
+        'Additional': '',
+    } #TODO сделать для всех вариантов картинки
+
+    icon_url = 'http://openweathermap.org/img/w/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        owm = pyowm.OWM('5d436488dae946c7fa423d96b8bcd413')
+        observation = owm.weather_at_place('Arneyevo, RU')
+        observation = observation.get_weather()
+        status = observation.get_status()
+
+        context['background'] = self.background[status]
+        context['temperature'] = observation.get_temperature('celsius')['temp']
+        context['icon'] = self.icon_url + observation.get_weather_icon_name() + '.png'
+
+        return context
+contact_information = ContactInformation.as_view()
 
 
 class CalendarEvents(TemplateView):
@@ -87,7 +108,6 @@ class CalendarEvents(TemplateView):
         monday = day - datetime.timedelta(days=current_weekday)
         return monday
 calendar_events = CalendarEvents.as_view()
-
 
 
 class NoteList(ListView):
