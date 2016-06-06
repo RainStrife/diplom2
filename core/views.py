@@ -15,15 +15,15 @@ def index(request):
 class ContactInformation(TemplateView):
     template_name = 'core/contact_information.html'
     background = {
-        'Thunderstorm': 'core/img_for_weather/1.jpg',
-        'Drizzle': 'core/img_for_weather/2.jpg',
-        'Rain': 'core/img_for_weather/3.jpg',
+        'Thunderstorm': 'core/img_for_weather/1.JPG',
+        'Drizzle': 'core/img_for_weather/2.JPG',
+        'Rain': 'core/img_for_weather/3.JPG',
         'Snow': 'core/img_for_weather/4.jpg',
-        'Atmosphere': 'core/img_for_weather/5.jpg',
-        'Clear': 'core/img_for_weather/6.jpg',
-        'Clouds': 'core/img_for_weather/7.jpg',
-        'Extreme': 'core/img_for_weather/8.jpg',
-        'Additional': 'core/img_for_weather/9.jpg',
+        'Atmosphere': 'core/img_for_weather/5.JPG',
+        'Clear': 'core/img_for_weather/6.JPG',
+        'Clouds': 'core/img_for_weather/7.JPG',
+        'Extreme': 'core/img_for_weather/8.JPG',
+        'Additional': 'core/img_for_weather/9.JPG',
     }
     #TODO сделать для всех вариантов картинки
 
