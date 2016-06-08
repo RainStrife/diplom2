@@ -59,7 +59,7 @@ class Photo(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True, verbose_name='Название видео')
     url = models.URLField(verbose_name='Ссылка на видео')
-    url_id = models.URLField(verbose_name='id видео', blank=True, null=True)
+    url_id = models.CharField(max_length=255, verbose_name='id видео', blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
 
     def save(self, **kwargs):
