@@ -12,6 +12,11 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    def delete(self, *args, **kwargs):
+        storage, path = self.image.storage, self.image.path
+        super(Event, self).delete(*args, **kwargs)
+        storage.delete(path)
+
     class Meta:
         ordering = ['-event_date']
 
@@ -42,6 +47,11 @@ class PhotoAlbum(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название Альбома')
     img = models.ImageField(upload_to='albums/', verbose_name='Превью Альбома', blank=True)
 
+    def delete(self, *args, **kwargs):
+        storage, path = self.image.storage, self.image.path
+        super(PhotoAlbum, self).delete(*args, **kwargs)
+        storage.delete(path)
+
     def __str__(self):
         return self.title
 
@@ -54,6 +64,11 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.title
+
+    def delete(self, *args, **kwargs):
+        storage, path = self.image.storage, self.image.path
+        super(Photo, self).delete(*args, **kwargs)
+        storage.delete(path)
 
 
 class Video(models.Model):
