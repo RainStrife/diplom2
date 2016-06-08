@@ -1,11 +1,12 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
+    <div class="row">
     {% for formation in object_list %}
           <h5>{{ formation.title }}</h5>
 
             {% if formation.photos %}
-                <img width="60%" src="{{ formation.photos.url }}">
+                <img width="100%" src="{{ formation.photos.all.0.img.url }}">
             {% endif %}
             <h5>
                 {% if formation.short_text %}
@@ -17,5 +18,5 @@
             <div style="background-color: #eeeee2"><a href="{% url 'formation_detail_view' formation.pk %}">подробнее</a> </div>
             <hr>
     {% endfor %}
-
+    </div>
 {% endblock content %}

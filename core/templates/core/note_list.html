@@ -20,7 +20,6 @@
                         {{ note.text|slice:":50" }}...
                     {% endif %}
                 </h5>
-                <div style="background-color: #eeeee2"><a href="{% url 'note_detail_view' note.pk %}">подробнее</a> </div>
             <hr>
             </div>
         {% endfor %}

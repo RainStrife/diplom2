@@ -4,12 +4,29 @@ import pyowm
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
-from core.models import Note, Formation, PhotoAlbum, Video, Event
+from core.models import Note, Formation, PhotoAlbum, Video, Event, Tag
 from project.settings import STATIC_URL
 
 
-def index(request):
-    return render(request, 'core/index.html', {})
+class Index(TemplateView):
+    template_name = 'core/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.GET.get('tag'):
+            tag = Tag.objects.get(title=self.request.GET.get('tag'))
+            qs_notes = tag.notes.all()[:5]
+            qs_events = tag.events.all()[:5]
+        else:
+            qs_notes = Note.objects.all()[:5]
+            qs_events = Event.objects.all()[:5]
+
+        context['notes'] = qs_notes
+        context['events'] = qs_events
+
+        return context
+index = Index.as_view()
 
 
 class ContactInformation(TemplateView):

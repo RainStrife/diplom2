@@ -8,10 +8,12 @@ class Event(models.Model):
     img = models.ImageField(blank=True, verbose_name='Изображение', upload_to='event/')
     event_date = models.DateTimeField(verbose_name='Дата события')
     tags = models.ManyToManyField("Tag", blank=True, related_name='events')  # Все теги прикреплённые к событию
-    published_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-event_date']
 
 
 class Note(models.Model):
@@ -25,9 +27,12 @@ class Note(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-published_date']
+
 
 class Tag(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Тэг')
+    title = models.CharField(max_length=100, verbose_name='Тэг', unique=True)
 
     def __str__(self):
         return self.title
@@ -35,7 +40,7 @@ class Tag(models.Model):
 
 class PhotoAlbum(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название Альбома')
-    img = models.ImageField(upload_to='albums/', verbose_name='Превью Альбома')
+    img = models.ImageField(upload_to='albums/', verbose_name='Превью Альбома', blank=True)
 
     def __str__(self):
         return self.title
