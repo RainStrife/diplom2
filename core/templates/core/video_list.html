@@ -1,7 +1,17 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {% for video in object_list %}
-        <a href="#">{{ video.title }}</a>
+    <div class="row">
+        {% for video in object_list %}
+            <div class="col m4">
+            <a href="{{ video.url }}"><h5>{{ video.title }}</h5></a>
+
+                {% if video.url_id %}
+                    <iframe width="100%"
+                        src="http://www.youtube.com/embed/{{ video.url_id }}">
+                    </iframe>
+                {% endif %}
+            </div>
     {% endfor %}
+    </div>
 {% endblock content %}
