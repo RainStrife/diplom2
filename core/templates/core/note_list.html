@@ -11,7 +11,62 @@
         var note_divs = document.getElementsByClassName('note_list');
         var column_one = note_divs[0];
         var column_two = note_divs[1];
-    console.log(column_one, column_two)
+        var current_url = '{{ request.path }}';
+        var request_number = 0;
+        var request_slice = 10;
+        var notes_detail_url = '/notes/';
+
+        function Notes() {
+
+        }
+        Notes.prototype.getNotes = function () {
+            var that = this;
+            $.ajax({
+                method: "GET",
+                url: current_url,
+                data: {'request_number': request_number, 'request_slice': request_slice}
+            }).done(function (response) {
+                that.addNotes(response)
+            })
+        };
+        Notes.prototype.addNotes = function (notes){
+            var column_one = this.column_one;
+            var column_two = this.column_two;
+
+            for (var indext_note = 0; indext_note <= (notes.length - 1); indext_note++) {
+                var note = notes[indext_note];
+
+                var a_title = document.createElement('a');
+                a_title.innerText = note.title;
+                a_title.href = this.notes_detail_url.concat(note.id);
+
+                var img_note = document.createElement('img');
+                img_note.src = note.img_src;
+                img_note.style = 'width: 100%';
+
+                var div_time = document.createElement('div');
+                div_time.innerText = note.published_date;
+
+                var div_text = document.createElement('div');
+                div_text.innerText = note.short_text;
+
+                var new_note_div = document.createElement('div');
+                new_note_div.appendChild(a_title);
+                new_note_div.appendChild(img_note);
+                new_note_div.appendChild(div_text);
+                new_note_div.appendChild(div_time);
+                new_note_div.appendChild(document.createElement('hr'));
+
+                if (column_one.offsetHeight <= column_two.offsetHeight) {
+                    column_one.appendChild(new_note_div);
+                    console.log(column_one)
+                }
+                else {
+                    column_two.appendChild(new_note_div);
+                    console.log(column_one)
+                }
+            }
+        }
     </script>
 {#        {% for note in object_list %}#}
 {##}

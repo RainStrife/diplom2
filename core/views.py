@@ -129,9 +129,44 @@ class CalendarEvents(TemplateView):
 calendar_events = CalendarEvents.as_view()
 
 
-class NoteList(ListView):
+class NoteList(TemplateView):
     model = Note
     template_name = 'core/note_list.html'
+
+    def get(self, request, *args, **kwargs):
+
+        if self.request.is_ajax():
+            request_number = request.GET.get('request_number')
+            request_slice = request.GET.get('request_slice')
+            if request_number and request_slice:
+                begin_slice = int(request_number) * int(request_slice)
+
+                if self.model.objects.all().count() >= begin_slice:
+                    notes = self.model.objects.all().\
+                        exclude(published_date__gte=datetime.datetime.today()).order_by('-published_date')
+                    notes = notes[begin_slice : begin_slice + int(request_slice)]
+                    value_notes = notes.values()
+                    print(value_notes[0])
+                    value_notes = map(self.strftime_for_note_date, value_notes)
+                    value_notes = map(self.get_and_set_image_for_note, value_notes)
+                    print(value_notes)
+                    return JsonResponse(list(value_notes), safe=False)
+        else:
+            return super().get(request, *args, **kwargs)
+
+    @staticmethod
+    def strftime_for_note_date(note):
+        note['published_date'] = note['published_date'].strftime('%d.%m.%y-%H.%M')#get_strf_time(date)
+        return note
+
+    @classmethod
+    def get_and_set_image_for_note(cls, note):
+        note_from_db = cls.model.objects.get(id=note['id'])
+        if note_from_db.photos.exists():
+            note['img_src'] = note_from_db.photos.all()[0].img.url
+            print(note['img_src'])
+        return note
+
 note_list = NoteList.as_view()
 
 
