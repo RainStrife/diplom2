@@ -5,6 +5,7 @@
         <h3 class="card-panel orange lighten-4">{{ object.title }}</h3>
 
         <div>{{ object.text|safe }}</div>
+        <hr>
 
         {% if note.photos.all %}
             {% for image in  note.photos.all %}
