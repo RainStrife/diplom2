@@ -32,7 +32,7 @@ class Note(models.Model):
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Тэг')
+    title = models.CharField(max_length=100, verbose_name='Тэг', unique=True)
 
     def __str__(self):
         return self.title
