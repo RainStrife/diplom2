@@ -1,5 +1,7 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    {{ photo_list }}
+    {% for photo in photo_list %}
+        <img src="../media/{{ photo.img }}"></img>
+    {% endfor %}
 {% endblock content %}
