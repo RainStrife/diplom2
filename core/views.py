@@ -8,8 +8,20 @@ from core.models import Note, Formation, PhotoAlbum, Video, Event
 from project.settings import STATIC_URL
 
 
-def index(request):
-    return render(request, 'core/index.html', {})
+class Index(TemplateView):
+    template_name = 'core/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        qs_notes = Note.objects.all()[:5]
+        qs_events = Event.objects.all()[:5]
+
+        context['notes'] = qs_notes
+        context['events'] = qs_events
+
+        return context
+index = Index.as_view()
 
 
 class ContactInformation(TemplateView):

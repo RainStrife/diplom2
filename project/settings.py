@@ -25,8 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'grappelli',
+
     'core',
-    'auth2'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -54,7 +56,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.static',
-                # 'social_auth.context_processors.social_auth_by_name_backends',
             ],
         },
     },
@@ -94,8 +95,6 @@ USE_L10N = True
 
 USE_TZ = False
 
-
-AUTH_USER_MODEL = 'auth2.CustomUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
