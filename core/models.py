@@ -63,7 +63,10 @@ class Photo(models.Model):
     tags = models.ManyToManyField(Tag, blank=True, related_name='photos')
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
+        else:
+            return str(self.img)
 
     def delete(self, *args, **kwargs):
         storage, path = self.image.storage, self.image.path
