@@ -1,8 +1,17 @@
 {% extends 'core/base/base.html' %}
 
-{% block content %}z
-    {% for photo_album in object_list %}
-        <a href="{% url 'photo_album_detail_view' photo_album.pk %}">{{ photo_album.title }}</a>
-    {% endfor %}
+{% block content %}
+    <div class="row">
+        {% for photo_album in object_list %}
+            <div class="col m4">
+                <a href="{% url 'photo_album_detail_view' photo_album.pk %}">
 
+                    <h5>{{ photo_album.title }}</h5>
+                    <img width="100%" style="border-bottom-left-radius: 10%"
+                         src="{% if photo_album.img.url %} {{ photo_album.img.url }} {% else %} {{ photo_album.photos.all.0.img.url }} {% endif %}"
+                    >
+            </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}

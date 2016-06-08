@@ -54,7 +54,16 @@ class Photo(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=50, blank=True, verbose_name='Название видео')
     url = models.URLField(verbose_name='Ссылка на видео')
+    url_id = models.URLField(verbose_name='id видео', blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
+
+    def save(self, **kwargs):
+        if not self.url_id:
+            if 'www.youtube.com/watch?v=' in self.url:
+                self.url_id = self.url.split('www.youtube.com/watch?v=')[-1]
+            elif 'https://youtu.be/':
+                self.url_id = self.url.split('youtu.be/')[-1]
+            super().save(**kwargs)
 
     def __str__(self):
         return self.title
