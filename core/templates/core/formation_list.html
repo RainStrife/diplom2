@@ -1,13 +1,15 @@
 {% extends 'core/base/base.html' %}
 
 {% block content %}
-    <div class="row">
+    <div class="row" xmlns="http://www.w3.org/1999/html">
     {% for formation in object_list %}
-          <h5>{{ formation.title }}</h5>
-
-            {% if formation.photos %}
-                <img width="100%" src="{{ formation.photos.all.0.img.url }}">
-            {% endif %}
+        <div class="col m6">
+            <a href="{% url 'formation_detail_view' formation.pk %}">
+                <h5>{{ formation.title }}</h5>
+                {% if formation.photos %}
+                    <img width="100%" src="{{ formation.photos.all.0.img.url }}">
+                {% endif %}
+            </a>
             <h5>
                 {% if formation.short_text %}
                     {{ formation.short_text }}
@@ -17,6 +19,7 @@
             </h5>
             <div style="background-color: #eeeee2"><a href="{% url 'formation_detail_view' formation.pk %}">подробнее</a> </div>
             <hr>
+        </div>
     {% endfor %}
     </div>
 {% endblock content %}

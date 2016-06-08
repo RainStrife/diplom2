@@ -43,6 +43,10 @@
         <div class="col m10 offset-m1">
             {% block content %}
 
+                <div class="row">
+                    <div class="col m6" > {% block column1 %} {% endblock %}</div>
+                    <div class="col m6" > {% block column2 %} {% endblock %}</div>
+                </div>
             {% endblock %}
         </div>
 

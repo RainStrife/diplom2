@@ -15,7 +15,22 @@
          <p style="text-align: center;"><span style="font-size: 14pt; color: #333300;">Приходите к нам!</span></p>
      </div>
    </div>
-     {{ notes }}{{ events }}
+    <div class="row" style="padding-top: 3%; background-color: #eaeaf0">
+        <div class="col m6 center">
+            {% for note in notes %}
+                <a href="#" class="text-black"><h5 class="text-black"> <i class=" material-icons grp-centered">comment</i> {{ note.title }} </h5> </a>
+                <h6> {% if note.short_text %} {{ note.short_text }} {% else %} {{ note.text|slice:20 }} {% endif %}</h6>
+            {% endfor %}
+        </div>
+        <div class="col m6 center">
+            {% for event in events %}
+                <div class="center">
+                    <a href="#"><h5> <i class=" material-icons center">today</i> {{ event.title }} </h5> </a>
+                    <h6> {{ event.short_text }} </h6>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock content %}
 {% block post_content %}
 {% endblock %}

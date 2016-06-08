@@ -49,7 +49,15 @@
                     tooltip_title.innerText = event[1];
                     tooltip_title.className = 'center grey-text text-darken-2 tooltipped';
                     tooltip_title.setAttribute('data-position', "bottom");
-                    tooltip_title.setAttribute('data-tooltip', event[2]);
+
+                    var text_tooltip = undefined;
+                    if (event[2]){
+                        text_tooltip = event[2]
+                    }
+                    else if (event[3]){
+                        text_tooltip = event[3]
+                    }
+                    tooltip_title.setAttribute('data-tooltip', text_tooltip);
                     tooltip_title.setAttribute('data-delay', "50");
 
                     var div_time = document.createElement('div');
@@ -60,11 +68,11 @@
                     event_div.appendChild(tooltip_title);
                     event_div.appendChild(div_time);
                     event_div.appendChild(document.createElement('hr'));
-                    $(document).ready(function(){
-                        $('.tooltipped').tooltip({delay: 50});
-                    });
                     div_for_this_week_day.getElementsByClassName('events')[0].appendChild(event_div)
-                })
+                });
+                $(document).ready(function(){
+                    $('.tooltipped').tooltip({delay: 50});
+                });
             });
         };
         CalendarEventDOM.prototype.clearWeekDivs = function () {
@@ -104,7 +112,6 @@
 
 
     </script>
-<a class="center grey-text text-darken-2 tooltipped" data-position="bottom" data-tooltip="краткое описание" data-delay="50">Первое событие</a>
     <div class="card-panel blue-grey darken-2 row">
 
         <div class="col m2" onclick="calendarEvent.previousWeek()"> <a href="#">
@@ -118,6 +125,11 @@
     </div>
     {% endblock %}
 {% block contet_without_padding %}
+    <style>
+         .backdrop{
+           background-color: #857085;
+         }
+      </style>
     <div class="row">
         <div class="col m2 eventCalendar" style="width: 14%" id="0">
             <div class="weekDay"></div>
