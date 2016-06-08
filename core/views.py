@@ -16,11 +16,11 @@ class Index(TemplateView):
 
         if self.request.GET.get('tag'):
             tag = Tag.objects.get(title=self.request.GET.get('tag'))
-            qs_notes = tag.notes.all()[:5]
-            qs_events = tag.events.all()[:5]
+            qs_notes = tag.notes.all()[:3]
+            qs_events = tag.events.all()[:3]
         else:
-            qs_notes = Note.objects.all()[:5]
-            qs_events = Event.objects.all()[:5]
+            qs_notes = Note.objects.all()[:3]
+            qs_events = Event.objects.all()[:3]
 
         context['notes'] = qs_notes
         context['events'] = qs_events

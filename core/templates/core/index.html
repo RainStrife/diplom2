@@ -16,7 +16,7 @@
      </div>
    </div>
     <div class="row" style="padding-top: 3%; background-color: #eaeaf0">
-        <div class="col m6 center">
+        <div class="col m6 left">
             {% for note in notes %}
                 <a href="#" class="text-black"><h5 class="text-black"> <i class=" material-icons grp-centered">comment</i> {{ note.title }} </h5> </a>
                 <h6> {% if note.short_text %} {{ note.short_text }} {% else %} {{ note.text|slice:20 }} {% endif %}</h6>
