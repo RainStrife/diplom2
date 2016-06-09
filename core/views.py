@@ -14,11 +14,6 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # if self.request.GET.get('tag'):
-        #     tag = Tag.objects.get(title=self.request.GET.get('tag'))
-        #     qs_notes = tag.notes.all()[:3]
-        #     qs_events = tag.events.all()[:3]
-        # else:
         qs_notes = Note.objects.all()[:3]
         qs_events = Event.objects.all()[:3]
 
@@ -42,7 +37,6 @@ class ContactInformation(TemplateView):
         'Extreme': 'core/img_for_weather/8.JPG',
         'Additional': 'core/img_for_weather/9.JPG',
     }
-    #TODO сделать для всех вариантов картинки
 
     icon_url = 'http://openweathermap.org/img/w/'
 
