@@ -7,7 +7,7 @@ class Event(models.Model):
     text = models.TextField(blank=True, verbose_name='Полное описание')
     img = models.ImageField(blank=True, verbose_name='Изображение', upload_to='event/')
     event_date = models.DateTimeField(verbose_name='Дата события')
-    tags = models.ManyToManyField("Tag", blank=True, related_name='events')  # Все теги прикреплённые к событию
+    # tags = models.ManyToManyField("Tag", blank=True, related_name='events')  # Все теги прикреплённые к событию
 
     def __str__(self):
         return self.title
@@ -27,7 +27,7 @@ class Note(models.Model):
     text = models.TextField(blank=True, verbose_name='Полное описание')
     published_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     photos = models.ManyToManyField("Photo", blank=True, related_name='notes')
-    tags = models.ManyToManyField("Tag", blank=True, related_name='notes')  # Все теги прикреплённые к новости
+    # tags = models.ManyToManyField("Tag", blank=True, related_name='notes')  # Все теги прикреплённые к новости
 
     def __str__(self):
         return self.title
@@ -36,11 +36,11 @@ class Note(models.Model):
         ordering = ['-published_date']
 
 
-class Tag(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Тэг', unique=True)
-
-    def __str__(self):
-        return self.title
+# class Tag(models.Model):
+#     title = models.CharField(max_length=100, verbose_name='Тэг', unique=True)
+#
+#     def __str__(self):
+#         return self.title
 
 
 class PhotoAlbum(models.Model):
@@ -60,7 +60,7 @@ class Photo(models.Model):
     title = models.CharField(max_length=100, blank=True, verbose_name='Название фотографии')
     img = models.ImageField(verbose_name='Изображение',  upload_to='photo/')
     album = models.ForeignKey(PhotoAlbum, blank=True, null=True, related_name='photos')
-    tags = models.ManyToManyField(Tag, blank=True, related_name='photos')
+    # tags = models.ManyToManyField(Tag, blank=True, related_name='photos')
 
     def __str__(self):
         if self.title:
@@ -78,7 +78,7 @@ class Video(models.Model):
     title = models.CharField(max_length=50, blank=True, verbose_name='Название видео')
     url = models.URLField(verbose_name='Ссылка на видео')
     url_id = models.CharField(max_length=255, verbose_name='id видео', blank=True, null=True)
-    tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
+    # tags = models.ManyToManyField(Tag, blank=True, related_name='videos')
 
     def save(self, **kwargs):
         if not self.url_id:
