@@ -3,11 +3,11 @@
 {% block content %}
     <div class="row" xmlns="http://www.w3.org/1999/html">
     {% for formation in object_list %}
-        <div class="col m6">
+        <div class="col m12">
             <a href="{% url 'formation_detail_view' formation.pk %}">
                 <h5>{{ formation.title }}</h5>
                 {% if formation.photos %}
-                    <img width="100%" src="{{ formation.photos.all.0.img.url }}">
+                    <img width="60%" class="center" src="{{ formation.photos.all.0.img.url }}">
                 {% endif %}
             </a>
             <h5>

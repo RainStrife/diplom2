@@ -8,28 +8,29 @@
     </div>
 
     <script>
-        var note_divs = document.getElementsByClassName('note_list');
-        var column_one = note_divs[0];
-        var column_two = note_divs[1];
-        var current_url = '{{ request.path }}';
-        var request_number = 0;
-        var request_slice = 10;
-        var notes_detail_url = '/notes/';
+        function Notes(args) {
+            this.notes_detail_url = args.notes_detail_url;
+            this.current_url = args.current_url;
+            this.column_one = args.column_one;
+            this.column_two = args.column_two;
 
-        function Notes() {
+            this.request_number = args.request_number || 0;
+            this.request_slice = args.request_slice || 4;
 
+            this.getNotes();
         }
         Notes.prototype.getNotes = function () {
             var that = this;
             $.ajax({
                 method: "GET",
-                url: current_url,
-                data: {'request_number': request_number, 'request_slice': request_slice}
+                url: that.current_url,
+                data: {'request_number': that.request_number, 'request_slice': that.request_slice}
             }).done(function (response) {
-                that.addNotes(response)
+                console.log(response);
+                that.addDivNotes(response)
             })
         };
-        Notes.prototype.addNotes = function (notes){
+        Notes.prototype.addDivNotes = function (notes){
             var column_one = this.column_one;
             var column_two = this.column_two;
 
@@ -37,22 +38,24 @@
                 var note = notes[indext_note];
 
                 var a_title = document.createElement('a');
-                a_title.innerText = note.title;
+                a_title.innerHTML = '<h5>' + note.title + '</h5>';
                 a_title.href = this.notes_detail_url.concat(note.id);
+                a_title.className = 'grey-text lighten-2-text center';
 
                 var img_note = document.createElement('img');
                 img_note.src = note.img_src;
                 img_note.style = 'width: 100%';
+                a_title.appendChild(img_note);
 
                 var div_time = document.createElement('div');
                 div_time.innerText = note.published_date;
+                div_time.className = 'center blue-grey-text';
 
                 var div_text = document.createElement('div');
                 div_text.innerText = note.short_text;
 
                 var new_note_div = document.createElement('div');
                 new_note_div.appendChild(a_title);
-                new_note_div.appendChild(img_note);
                 new_note_div.appendChild(div_text);
                 new_note_div.appendChild(div_time);
                 new_note_div.appendChild(document.createElement('hr'));
@@ -66,27 +69,23 @@
                     console.log(column_one)
                 }
             }
-        }
+        };
+        Notes.prototype.addNotes = function () {
+            this.request_number += 1;
+            this.getNotes()
+        };
+
+        var note_divs = document.getElementsByClassName('note_list');
+        var column_one = note_divs[0];
+        var column_two = note_divs[1];
+        var current_url = '{{ request.path }}';
+
+        var notes_detail_url = '/notes/';
+        notes_args = {notes_detail_url: notes_detail_url, current_url: current_url,
+            column_one: column_one, column_two: column_two
+        };
+        var notes = new Notes(notes_args)
     </script>
-{#        {% for note in object_list %}#}
-{##}
-{#            <div class="col m6" >#}
-{##}
-{#                <h5><a href="{% url 'note_detail_view' note.pk %}">{{ note.title }}</a></h5>#}
-{##}
-{#                {% if note.photos.all %}#}
-{#                    <img width="100%" src="{{ note.photos.all.0.img.url }}">#}
-{#                {% endif %}#}
-{#                <h5>#}
-{#                    {% if note.short_text %}#}
-{#                        {{ note.short_text }}#}
-{#                    {% else %}#}
-{#                        {{ note.text|slice:":50" }}...#}
-{#                    {% endif %}#}
-{#                </h5>#}
-{#            <hr>#}
-{#            </div>#}
-{#        {% endfor %}#}
 
-
+    <a class="waves-effect waves-light btn center" onclick="notes.addNotes()">Еще новости</a>
 {% endblock content %}
